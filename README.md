@@ -11,9 +11,9 @@
 <p align="center">
   <img alt="Latest release" src="https://img.shields.io/github/v/release/npd1987/taskbar-app-groups-releases?label=release&color=0969da">
   <img alt="Downloads" src="https://img.shields.io/github/downloads/npd1987/taskbar-app-groups-releases/total?label=downloads&color=1a7f37">
-  <img alt="Platform" src="https://img.shields.io/badge/platform-Windows%2011-555">
-  <img alt="Runtime" src="https://img.shields.io/badge/runtime-nothing%20to%20install-8250df">
-  <img alt="Licence" src="https://img.shields.io/badge/licence-free-555">
+  <img alt="Platform" src="https://img.shields.io/badge/platform-Windows%2011-0e7490">
+  <img alt="Nothing else to install" src="https://img.shields.io/badge/nothing%20else%20to%20install-8250df">
+  <img alt="Licence" src="https://img.shields.io/badge/licence-free-9a6700">
 </p>
 
 <p align="center">
