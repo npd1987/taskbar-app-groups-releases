@@ -206,7 +206,7 @@ If you redraw a group's icon after pinning it, the taskbar goes on showing the o
 
 No program can pin a taskbar button on Windows 11, so saving a group opens the folder with the shortcut already selected and you put it on the taskbar yourself, once. **Dragging it out of that folder and dropping it where you want it works well**, and it is the route worth knowing, because it also chooses the position. Right click and Pin to taskbar works too.
 
-What does not work is a program handing the taskbar a shortcut from inside its own window. That was built, tried against a real taskbar and removed: Windows 11 ignores the drop, unlike Windows 10. So the folder is the way, and opening it for you is the most any app can do.
+There is also a setting that skips the folder: the app opens a small window holding the group's icon and you drag it onto your taskbar from there. Same drag, one less window in the way, and it tells you when the group lands. The folder route stays the default and stays exactly as it was.
 
 </details>
 
