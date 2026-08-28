@@ -264,10 +264,10 @@ It is built to sit out of your way. Measured with the app's own instruments and 
 
 | | |
 |---|---|
-| Sitting in the background, nothing on screen | **No measurable CPU.** A measured zero, over consecutive minutes |
-| Memory, in that state | **About 48 MB** |
+| Sitting in the background, nothing on screen | **No measurable CPU.** A measured zero over four separate minutes, before and after opening groups |
+| Memory, in that state | **About 77 MB**, and about 125 MB once you have opened your groups |
 | Opening a group of 14 apps | **About 120 to 150 ms** |
-| Opening a group of 6 | About 100 to 180 ms |
+| Opening a group of 6 | About 110 to 130 ms |
 | Background services | **None.** No service and no scheduled task |
 | Added to your startup | **Nothing**, unless you switch that on yourself |
 | Network | One update check a day, and nothing else |
@@ -280,7 +280,8 @@ It is built to sit out of your way. Measured with the app's own instruments and 
 - **A flyout left open on screen costs about 1% of one core** for as long as you leave it up, because it is a live thing refreshing what it shows.
 - **Memory grows as you use it and then stops.** Every app icon is read out of Windows once and kept, about 160 KB each, which is why the second time you open a group it is instant. It does not hand that back while it is running, and that is deliberate: giving it back would mean re-reading the icons on your next click. Close the app if you want the memory.
 - **The first click after signing in takes one to three seconds**, and almost all of that is Windows starting the program rather than anything this app does. Turning on "start with Windows" moves that cost to sign-in: measured at 426 ms without it and 232 ms with it, on a group of 14.
-- **A very large group costs more.** 226 apps in one group opens in 300 to 370 ms rather than 120 to 150.
+- **A very large group costs more.** 221 apps in one group opens in 285 to 340 ms rather than 120 to 150.
+- **The memory figures come from a heavy setup**: 13 groups, 446 apps and folders between them, and 230 pictures read in at sign-in. A handful of groups costs less than that.
 - Measured on an Intel Core i7-1165G7, 16 GB, Windows 11 Home, at 100% scaling, on a debug build, which is the slower of the two. A release build was measured against the same workload and was not faster, so none of these numbers is flattered by the build.
 
 </details>
@@ -297,10 +298,11 @@ This is how the app is kept quick and light. Nothing here is exotic: they are th
 - **Doing the expensive work before the click rather than during it.** Once your first flyout is on screen, a background thread works out what everything in your other groups launches: **the second group you open went from 1,378 ms to 479**. With "start with Windows" on, the first window is built in advance at sign-in, off the side of the screen, and **the first click of the day went from 426 ms to 232**.
 - **Background threads that give way.** All of that runs at below normal priority, so it yields to whatever you are actually doing, and each one writes down what it did in the app's own log. Work you cannot see is the thing this product does not do.
 - **Prioritising the queue.** There is one thread reading pictures and one queue, so the order they are asked for is the order tiles fill in: the group you clicked, then the groups on your taskbar, then the rest. It used to be the order they sit in the settings file, which could put four hundred pictures you are not looking at in front of the fourteen you are.
-- **Event driven rather than polling.** Nothing ticks while no flyout is on screen. That is why sitting in the background is a measured zero rather than a small number.
+- **Event driven rather than polling.** Nothing ticks while no flyout is on screen. That is why sitting in the background with nothing on screen is a measured zero rather than a small number.
+- **Measuring the click itself, line by line.** A click on a group starts a small helper process whose whole job is to hand the click to the app already running and exit, and it was two thirds of what you wait for. Timed stamp by stamp, its own work went from **42 ms to 14**: reading when it started no longer loads a framework class it does not need, reading the running app's process id no longer loads Windows' language data to read four digits, finding that app asks about one named pipe instead of listing the 427 on the machine, and a click carrying nothing but a group name skips the command line parsing altogether.
 - **Coalescing repeated work.** Opening a large group used to queue **138 identical layout checks**; they now collapse into one, because running the check once and running it 138 times give the same answer.
-- **Bounded logs and bounded caches.** The app's own trace file is capped at 256 KB rather than growing forever, and every cache in it is limited by something your machine has a fixed number of.
-- **Leaks found and closed.** Ten keystrokes on a test bench were leaving **310 event listeners** behind, and two stray subscriptions were holding every editor window ever opened in memory, at **about 92 drawing handles an open**. Both are now zero, and both have a check that fails if they ever come back.
+- **Bounded logs and bounded caches.** The app's own trace file is capped at 256 KB rather than growing forever, and the cap is measured against the file itself rather than a running total, because a total kept in one process is wrong the moment anything else writes to it. Every cache in it is limited by something your machine has a fixed number of.
+- **Leaks found and closed.** Ten keystrokes on a test bench were leaving **310 event listeners** behind; two stray subscriptions were holding every editor window ever opened in memory, at **about 92 drawing handles an open**; and an animation left running after a drag in the editor was keeping the whole drawing loop alive with nothing on screen, at **3.8% of one core**. All three are closed, and each one has a check that fails if it comes back.
 
 <details>
 <summary>What was measured and then deliberately not built</summary>
@@ -310,6 +312,7 @@ This is how the app is kept quick and light. Nothing here is exotic: they are th
 - **Throwing away cached pictures.** An entry was measured at 2 to 9 KB, so an eviction policy would have added a moving part to the path everything draws through and saved almost nothing.
 - **Drawing only the tiles a flyout can show.** Built, measured, and it ships switched off: it saved 9 ms on one deliberately enormous group and nothing at all on the 226 app one it was aimed at. The code is still there behind one constant.
 - **A release build.** Measured against the same work as the debug one and it was not faster, because the cost is Windows' own layout work and that is identical in both.
+- **Dropping one message from the handshake between the two processes.** It was worth 2.3 ms and it hung every click, because that message was doing flow control as well as saying hello. It is staying, and the reason is written in the code above it.
 
 </details>
 
