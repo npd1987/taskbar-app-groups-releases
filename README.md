@@ -128,6 +128,60 @@ Every one of those is a global setting with a per group override, so your groups
 
 ---
 
+## Change icon size
+
+The apps in a flyout are drawn at four sizes, and the name follows the icon rather than being a second setting to keep in step. Pick one while the flyout is open and it changes in front of you, at the size it will really be, on the group you are really looking at.
+
+<p align="center">
+  <img src="media/size-choosing.png" width="380" alt="A flyout being edited with the Icon size tray open above it: Small 24pt, Default 30pt, Large 40pt and Extra large 48pt, and a green tick to keep the choice">
+</p>
+
+<p align="center">
+  <sub>Press <b>Icon size</b> while editing a flyout. Every choice previews in place. The tick keeps it, Esc puts it back.</sub>
+</p>
+
+<br><br>
+
+<table>
+<tr>
+<td align="center" valign="bottom"><img src="media/size-small.png" width="164" alt="The same group at Small, a 24 point icon"></td>
+<td align="center" valign="bottom"><img src="media/size-default.png" width="179" alt="The same group at Default, a 30 point icon"></td>
+<td align="center" valign="bottom"><img src="media/size-large.png" width="204" alt="The same group at Large, a 40 point icon"></td>
+<td align="center" valign="bottom"><img src="media/size-extra-large.png" width="224" alt="The same group at Extra large, a 48 point icon"></td>
+</tr>
+<tr>
+<td align="center"><b>Small</b><br><sub>24pt</sub></td>
+<td align="center"><b>Default</b><br><sub>30pt</sub></td>
+<td align="center"><b>Large</b><br><sub>40pt</sub></td>
+<td align="center"><b>Extra large</b><br><sub>48pt</sub></td>
+</tr>
+</table>
+
+<p align="center">
+  <sub>One group, drawn four ways, shown at true relative scale.</sub>
+</p>
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+**Four sizes, a button each.** Press one to pick between them, with no slider to nudge into place.
+
+**The name follows the icon.** 10, 11, 12 and 13 point under 24, 30, 40 and 48, so a bigger icon never ends up with tiny writing under it.
+
+</td>
+<td width="50%" valign="top">
+
+**Global, or per group.** Set it once for everything, or give one group a size of its own and leave the rest alone.
+
+**Nothing moves unless you move it.** A flyout you have never told is drawn at exactly the size it always was.
+
+</td>
+</tr>
+</table>
+
+---
+
 ## Not only apps: folders and files
 
 A group can hold a mix of apps, folders and documents. Click a folder and Explorer opens it; click a document and it opens in whatever normally opens it. There is nothing special about them once they are in, which is the point.
