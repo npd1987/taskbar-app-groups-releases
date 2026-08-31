@@ -140,7 +140,7 @@ The apps in a flyout are drawn at four sizes, and the name follows the icon rath
   <sub>Press <b>Icon size</b> while editing a flyout. Every choice previews in place. The tick keeps it, Esc puts it back.</sub>
 </p>
 
-<br><br>
+<br>
 
 <table>
 <tr>
